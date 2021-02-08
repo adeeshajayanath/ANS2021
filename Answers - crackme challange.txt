@@ -1,0 +1,154 @@
+crackme - 3566
+
+int main(int param_1,char *param_2)
+
+{
+  int iVar1;
+  long lVar2;
+  
+  if (param_1 == 2) {
+    lVar2 = checksum(*(char **)(param_2 + 8));
+    if (lVar2 == 0xdee) { //0xdee = 3566
+      puts("\a\a\aTada! Congrats");
+      iVar1 = 0;
+    }
+    else {
+      puts("Wrong password");
+      iVar1 = 1;
+    }
+  }
+  else {
+    printf("Usage: %s password\n",*(undefined8 *)param_2);
+    iVar1 = 1;
+  }
+  return iVar1;
+}
+
+
+crackme1 - qwerty
+
+
+int main(int param_1,int param_2,char **param_3)
+
+{
+  int iVar1;
+  size_t len;
+  long in_FS_OFFSET;
+  char **local_e0;
+  int local_c4;
+  char *local_c0;
+  MD5_CTX local_b8;
+  byte local_58 [16];
+  undefined8 local_48;
+  undefined8 local_40;
+  undefined8 local_38;
+  undefined8 local_30;
+  undefined local_28;
+  long local_20;
+  
+  local_20 = *(long *)(in_FS_OFFSET + 0x28);
+  local_48 = 0;
+  local_40 = 0;
+  local_38 = 0;
+  local_30 = 0;
+  local_28 = 0;
+  local_c0 = (char *)0x0;
+  local_e0 = param_3;
+  if (param_1 == 1) {
+    while (*local_e0 != (char *)0x0) {
+      iVar1 = strncmp(*local_e0,"Passw0rd=",9);
+      if (iVar1 == 0) {
+        local_c0 = *local_e0;
+        break;
+      }
+      local_e0 = local_e0 + 1;
+    }
+    if (local_c0 == (char *)0x0) {
+      puts("Access Denied");
+      iVar1 = 1;
+    }
+    else {
+      MD5_Init(&local_b8);
+      len = strlen(local_c0 + 9);
+      MD5_Update(&local_b8,local_c0 + 9,len);
+      MD5_Final(local_58,&local_b8);
+      local_c4 = 0;
+      while (local_c4 < 0x10) {
+        sprintf((char *)((long)&local_48 + (long)(local_c4 *2)),"%02x",(ulong)local_58[local_c4]);
+        local_c4 = local_c4 + 1;
+      }
+      local_28 = 0;
+      iVar1 = strcmp("d8578edf8458ce06fbc5bb76a58c5ca4",(char *)&local_48);
+      if (iVar1 == 0) {
+        puts("Access Granted");
+        iVar1 = 0;
+      }
+      else {
+        puts("Access Denied");
+        iVar1 = 1;
+      }
+    }
+  }
+  else {
+    puts("Access Denied");
+    iVar1 = 1;
+  }
+  if (local_20 == *(long *)(in_FS_OFFSET + 0x28)) {
+    return iVar1;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail();
+}
+
+
+
+
+
+crackme3 
+
+int check_password(char *param_1)
+
+{
+  int iVar1;
+  size_t sVar2;
+  byte local_e;
+  
+  sVar2 = strlen(param_1);
+  if (sVar2 == 4) {
+    local_e = 0;
+    while (local_e < 4) {
+      if ((uint)(byte)param_1[local_e] != (0x4434241U >> ((local_e & 3) << 3) & 0xff)) {
+        return 0;
+      }
+      local_e = local_e + 1;
+    }
+    iVar1 = 1;
+  }
+  else {
+    iVar1 = 0;
+  }
+  return iVar1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
